@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llContentUsuario"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <br.agr.terras.materialdroid.CircularImageView
+            android:id="@+id/ivFotoAmigo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/curso_hv"/>
+
+        <TextView
+            android:id="@+id/tvNomeAmigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/ivFotoAmigo"
+            android:fontFamily="@font/museo_sans_rounded_500"
+            android:text="Nome Completo"/>
+
+        <TextView
+            android:id="@+id/tvIdAmigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvNomeAmigo"
+            android:layout_toRightOf="@+id/ivFotoAmigo"
+            android:fontFamily="@font/museo_sans_rounded_500"
+            android:text="Leo_Santana"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvBioAmigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bio opcional do usuário"
+        android:gravity="center"
+        android:fontFamily="@font/museo_sans_rounded_500"
+        android:textStyle="italic"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/duo_xp"/>
+
+            <TextView
+                android:id="@+id/tvXpAmigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/museo_sans_rounded_500"
+                android:text="2400 XP"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/duo_ofensiva"/>
+
+            <TextView
+                android:id="@+id/tvOfensivaAmigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/museo_sans_rounded_500"
+                android:text="14"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/duo_lingots"/>
+
+            <TextView
+                android:id="@+id/tvLingotsAmigo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/museo_sans_rounded_500"
+                android:layout_gravity="center_vertical"
+                android:text="48"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/duo_mensagem"/>
+
+        <TextView
+            android:id="@+id/tvEmailAmigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email@duo.com"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/duo_local"/>
+
+        <TextView
+            android:id="@+id/tvLocalAmigo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brasília - DF - BRA"/>
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvCursosAmigo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

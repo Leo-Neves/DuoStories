@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DuoStories</string>
+    <string name="usuario_nao_encontrado">Desculpe, não foi possível encontrar o usuário \"%1$s\"</string>
+</resources>
