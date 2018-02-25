@@ -7,6 +7,8 @@ import com.duolingo.duostories.model.utils.ImageUtils;
 import com.duolingo.duostories.presenter.adapter.CursosAdapter;
 import com.duolingo.duostories.view.PesquisarAmigoFragment;
 
+import br.agr.terras.aurora.log.Logger;
+
 /**
  * Created by leo on 24/02/18.
  */
@@ -31,6 +33,7 @@ public class PesquisarAmigoPresenter {
             view.exibirCursosDoUsuario(cursosAdapter);
             view.exibirDadosDoUsuario(usuario.getId(), usuario.getNome(), usuario.getBio(), usuario.getEmail(), usuario.getLocal());
             view.exibirScoresDoUsuario(usuario.getXp(), usuario.getMetaDiaria(), usuario.getOfensiva(), usuario.getLingots());
+            Logger.i(usuario.toString());
         }
 
         @Override

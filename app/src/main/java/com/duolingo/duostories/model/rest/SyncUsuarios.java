@@ -31,10 +31,11 @@ import io.realm.RealmList;
  */
 
 public class SyncUsuarios {
-    private static final String URL_INFO_USUARIO = "https://www.duolingo.com/2017-06-30/users?username=";
+    private static final String URL_INFO_USUARIO_RESUMIDA = "https://www.duolingo.com/2017-06-30/users?username=";
+    private static final String URL_INFO_USUARIO_COMPLETA = "https://www.duolingo.com/users/";
 
     public void baixarUsuario(final String username, final UsuarioRESTListener restListener){
-        String url = URL_INFO_USUARIO + username.trim();
+        String url = URL_INFO_USUARIO_RESUMIDA + username.trim();
         EnvioJson envioJson = new EnvioJson(Request.Method.GET, url, null, null, new EnvioListener() {
             @Override
             public void onError(Exception e, int code) {
@@ -44,12 +45,28 @@ public class SyncUsuarios {
             @Override
             public void onSuccess(JSONObject result) {
                 try {
-                    Usuario usuario = parserJsonParaUsuario(result);
+                    final Usuario usuario = parserJsonParaUsuario(result);
                     restListener.usuarioBaixado(usuario);
                     baixarFoto(usuario.getId(), usuario.getImagemUrl(), atualizarFotoBaixada(usuario, restListener, 1));
+                    EnvioJson envioJsonCompleto = new EnvioJson(Request.Method.GET, URL_INFO_USUARIO_COMPLETA + username, null, null, new EnvioListener() {
+                        @Override
+                        public void onSuccess(JSONObject result) {
+                            try {
+                                Usuario usuarioCompleto = parserJsonParaUsuarioCompletarInformacoes(result, usuario);
+                                restListener.usuarioBaixado(usuarioCompleto);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    envioJsonCompleto.sync(MyApplication.getActivity());
                 } catch (IOException e) {
+                    e.printStackTrace();
                     restListener.erro();
                 } catch (JSONException e) {
+                    e.printStackTrace();
                     restListener.erroUsuarioNaoExiste(username);
                 }
             }
@@ -81,8 +98,9 @@ public class SyncUsuarios {
         usuario.setLocal(user.optString("location"));
         RealmList<Curso> cursos = new RealmList<>();
         JSONArray courses = user.optJSONArray("courses");
-        if (courses!=null && courses.length()>0)
-            for (int i=0; i<courses.length(); i++){
+        if (courses!=null && courses.length()>0) {
+            int totalXp = 0;
+            for (int i = 0; i < courses.length(); i++) {
                 JSONObject course = courses.getJSONObject(i);
                 Curso curso = new Curso();
                 curso.setId(course.getString("id"));
@@ -90,9 +108,31 @@ public class SyncUsuarios {
                 curso.setLinguaNativa(course.getString("fromLanguage"));
                 curso.setCodigo(course.getString("learningLanguage"));
                 curso.setXp(course.getInt("xp"));
+                totalXp+=curso.getXp();
                 cursos.add(curso);
             }
+            if (usuario.getXp()==0) usuario.setXp(totalXp);
+        }
         usuario.setCursos(cursos);
+        return usuario;
+    }
+
+    private Usuario parserJsonParaUsuarioCompletarInformacoes(JSONObject user, Usuario usuario) throws IOException, JSONException {
+        JSONObject tracking_properties = user.getJSONObject("tracking_properties");
+        if (usuario.getOfensiva()==0)
+            usuario.setOfensiva(tracking_properties.optInt("streak"));
+        if (usuario.getId()==null || usuario.getId().trim().isEmpty())
+            usuario.setId(tracking_properties.optString("username"));
+        if (usuario.getLingots()==0)
+            usuario.setLingots(tracking_properties.optInt("lingots"));
+        if (usuario.getLocal()==null || usuario.getLocal().trim().isEmpty())
+            usuario.setLocal(user.optString("location"));
+        if (usuario.getEmail()==null || usuario.getEmail().trim().isEmpty())
+            usuario.setEmail(user.optString("email"));
+        if (usuario.getBio()==null || usuario.getBio().trim().isEmpty())
+            usuario.setBio(user.optString("bio"));
+        if (usuario.getNome()==null || usuario.getNome().trim().isEmpty())
+            usuario.setNome(user.optString("fullname"));
         return usuario;
     }
 

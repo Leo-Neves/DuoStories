@@ -1,5 +1,7 @@
 package com.duolingo.duostories.model.entities;
 
+import java.util.Locale;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -117,5 +119,21 @@ public class Usuario extends RealmObject{
 
     public void setCursos(RealmList<Curso> cursos) {
         this.cursos = cursos;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.ENGLISH,"Nome: %s\n" +
+                "Id: %s\n" +
+                "Email: %s\n" +
+                "Bio: %s\n" +
+                "Local: %s\n" +
+                "Xp: %d\n" +
+                "Lingots: %d\n" +
+                "Meta diária: %d\n" +
+                "Ofensiva: %d\n" +
+                "isPlus: %s\n" +
+                "FotoURL: %s\n" +
+                "Total de cursos: %d",nome, id, email, bio, local, xp, lingots, metaDiaria, ofensiva, plus, imagemUrl, cursos!=null?cursos.size():0);
     }
 }
